@@ -3,7 +3,7 @@
     "path": "~/Documents/stat_MRI/2024/index.Rmd",
     "project_path": "index.Rmd",
     "type": "r_markdown",
-    "hash": "90526475",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1712579076727.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1195,41",
-        "scrollLine": "1191",
+        "cursorPosition": "1170,6",
+        "scrollLine": "1161",
         "last_setup_crc32": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1713881561,
+    "lastKnownWriteTime": 1713881786,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1713881561501,
+    "last_content_update": 1713881786061,
     "read_only": false,
     "read_only_alternatives": []
 }

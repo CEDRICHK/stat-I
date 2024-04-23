@@ -1167,6 +1167,7 @@ digraph {
   J [label='Indépendants']
   K [label='Appariés']
   L [label='Petite taille échantillon ou cellules attendues < 5?']
+  M [label='Oui: Test exact de Fisher']
   N [label='Non: Test du Chi-deux']
   O [label='Données ordinales?']
   P [label='Oui: Test de Friedman']
