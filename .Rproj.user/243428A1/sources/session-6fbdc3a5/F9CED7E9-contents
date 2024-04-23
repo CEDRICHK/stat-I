@@ -1,0 +1,22 @@
+# Création du tableau de contingence
+observed <- matrix(c(4, 6, 6, 4), nrow = 2, byrow = TRUE)
+
+# Nommer les dimensions pour la clarté
+dimnames(observed) <- list(supplement = c("A", "B"),
+                           outcome = c("Success", "Failure"))
+
+# Effectuer le test du chi-carré
+test_result <- chisq.test(observed, correct = FALSE)  # 'correct = FALSE' pour désactiver la correction de Yates
+
+# Afficher les résultats
+print(test_result)
+
+
+library(pwr)
+
+# Exemple de calcul de puissance pour un test du chi-carré
+effect_size <- ES.w1(P0 = observed[1,1]/sum(observed[1,]), P1 = observed[2,1]/sum(observed[2,]))
+power_analysis <- pwr.chisq.test(w = effect_size, N = sum(observed), df = 1, sig.level = 0.05)
+
+# Afficher l'analyse de puissance
+print(power_analysis)

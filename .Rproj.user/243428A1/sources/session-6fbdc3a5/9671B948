@@ -1,0 +1,28 @@
+{
+    "id": "9671B948",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1713095786394.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "id": "c10296b0868c43f28b171b01cbede75f",
+        "name": "resultat_test",
+        "title": "resultat_test",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2019027704526929920,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1713095786394,
+    "read_only": false,
+    "read_only_alternatives": []
+}

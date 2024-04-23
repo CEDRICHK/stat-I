@@ -1,0 +1,1204 @@
+---
+title: "Notions de statistiques"
+author: 
+  - "Cédric Hassen-Khodja"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css,"custom-style.css"]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanExtra)
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#035AA6",
+  secondary_color = "#03A696")
+
+```
+
+```{r xaringanExtra, echo = FALSE}
+xaringanExtra::use_progress_bar(color = "#0051BA", location = "top", height = "10px")
+
+```
+
+<!-- Cette session va aborder la question de reproductibilité, ici grâce à l'outil R. On verra toutefois des similitudes ou des compaaisons à faire avec Python. Ici je vais aborder qq pratiques et packages ou outil essentiel dans la recherche de reproductibilité-->
+
+## Les statistiques descriptives
+
+Un paramètre de position se doit de représenter au mieux la position de la distribution sur l'échelle des valeurs que peut prendre cette variable.
+
+### Moyenne arithmétique
+
+#### Définition
+
+La **moyenne arithmétique** d'un échantillon consiste à additionner les valeurs de cet échantillon mesurées pour cette variable puis à diviser le résultat par le nombre de mesures.
+
+$$ m = \frac{\sum x_i}{n} $$
+avec $n$ = effectif de l'échantillon et $x_i$ = valeurs des individus sur la variable concernée.
+
+---
+
+### Moyenne arithmétique (suite)
+
+.pull-left[
+#### Utilisation
+- Echelle additive.
+
+- Valeurs absolues.
+
+- Distribution symétrique.
+
+- Échantillon représentatif.
+
+- Stabilité des mesures.
+]
+
+.pull-right[
+#### Exclusion
+- Echelle multiplicative.
+
+- Valeurs relatives.
+
+- Présence de valeurs aberrantes.
+]
+
+<!-- La moyenne arithmétque est particulièrement lorsque l'échelle est additive 
+c'est à dire lorsque les valeurs s'ajoutent les unes aux autres.
+Egalement utile lorsqu'on considère la magnitude des valeurs et non leur signe.
+A traiter des distributions symétriques, c'est à dire des valeurs réparties de 
+manière équilibrées autour de la moyenne.-Appropriée lorsque l'échantillon est 
+représentatif de la population étudiée. Enfin la stabilité des mesures, 
+c'est à dire des valeurs homogènes, retirer ou ajouter une valeur, 
+n'affecte pas la moyenne
+Non adapté lorque l'échelle est multiplicative, cad les valeurs se multiplient 
+les unes aux autres ou pour des valeurs relatives (ratio/pourcentage). 
+De même la présence de valeurs aberrantes influent la moyenne.-->
+
+---
+
+### Moyenne arithmétique (suite)
+
+#### Exemple : Taille des cellules
+
+Supposons qu'un biologiste mesure la taille de cinq cellules observées au microscope, en micromètres (µm) :
+
+    Cellule 1 : 10 µm
+    Cellule 2 : 12 µm
+    Cellule 3 : 11 µm
+    Cellule 4 : 9 µm
+    Cellule 5 : 10 µm
+
+**Quelle est la taille moyenne des cellules observées (en micromètres) ?**
+
+--
+
+Pour calculer la taille moyenne des cellules, nous utilisons la moyenne arithmétique :
+
+$$ \text{Moyenne} = \frac{10 + 12 + 11 + 9 + 10}{5} = \frac{52}{5} = 10,4 \, \mu \text{m} $$
+
+Ainsi, la taille moyenne des cellules observées est de *10,4 micromètres*.
+
+---
+
+#### Exercice : Calcul de la Moyenne de l'Intensité de Fluorescence &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+Un biologiste mesure l'intensité de fluorescence de cinq échantillons de cellules traitées avec différents agents. Voici les résultats :
+
+    Échantillon 1 : 100 unités
+    Échantillon 2 : 120 unités
+    Échantillon 3 : 90 unités
+    Échantillon 4 : 110 unités
+    Échantillon 5 : 105 unités
+
+**Quelle est l'intensité moyenne de fluorescence des échantillons en unités ?**
+
+--
+
+Pour calculer l'intensité moyenne de fluorescence, nous utilisons également la moyenne arithmétique :
+
+$$ \text{Moyenne} = \frac{100 + 120 + 90 + 110 + 105}{5} = \frac{525}{5} = 105u $$
+
+Ainsi, l'intensité moyenne de fluorescence des échantillons est de *105 unités*.
+
+---
+
+### Moyenne mobile
+
+#### Définition
+
+Une **moyenne mobile** permet de lisser une série de valeurs exprimées en fonction du temps.
+
+$$M_t = \frac{1}{n} \sum_{i=0}^{n-1} P_{t-i}$$
+
+Où :
+
+- $M_t$ est la moyenne mobile au temps $t$;
+- $n$ est la période de la moyenne mobile;
+- $P_{t-i}$ est la valeur au temps $t-i$;
+- Le symbole Σ représente la somme des $n$ termes.
+
+---
+
+### Moyenne mobile (suite)
+
+.pull-left[
+#### Utilisation
+- Analyse des tendances.
+
+- Prévision.
+
+- Réduction du bruit.
+
+- Échantillon représentatif.
+
+- Détection de points de retournement.
+]
+
+.pull-right[
+#### Exclusion
+- Réactivité limitée.
+
+- Effet de bord.
+]
+
+<!-- elle est svt employée dans l'analyse de tendance, cad qu'elle permet de 
+lisser les fluctuations aléatoires et de mettre en évidence les tendances 
+sous-jacentes dans les données. De plus, la moyenne mobile est largement 
+utilisée dans la prévision, notamment dans les domaines tels que la finance, 
+l'économie et la météorologie. En utilisant les données historiques, 
+nous pouvons calculer la moyenne mobile pour estimer les valeurs 
+futures et anticiper les tendances à venir. Un autre avantage de la moyenne 
+mobile est sa capacité à réduire le bruit dans les données. En moyennant les 
+valeurs sur une période donnée, nous atténuons les fluctuations aléatoires et 
+mettons en évidence les modèles sous-jacents. De plus, la moyenne mobile est 
+utile pour maintenir un échantillon représentatif des données, en particulier 
+dans les séries chronologiques où de nouvelles données sont 
+continuellement ajoutées.Enfin, la moyenne mobile peut également être utilisée 
+pour détecter les points de retournement dans les séries chronologiques, 
+signalant des changements significatifs dans les tendances ou les 
+comportements des données.
+elle peut avoir une réactivité limitée aux changements soudains dans les données, 
+car elle lisse les fluctuations sur une période donnée. De plus, elle peut 
+souffrir d'un effet de bord où les valeurs de la périphérie de la fenêtre 
+glissante peuvent ne pas être suffisamment représentatives. -->
+
+---
+
+### Moyenne mobile (suite)
+
+#### Exemple : Densité cellulaire dans un échantillon
+
+Supposons qu'un biologiste étudie la densité cellulaire dans un échantillon au fil du temps. Voici les densités cellulaires mesurées pour chaque jour pendant une semaine :
+
+    Jour 1 : 50 cellules/mm²
+    Jour 2 : 55 cellules/mm²
+    Jour 3 : 60 cellules/mm²
+    Jour 4 : 65 cellules/mm²
+    Jour 5 : 70 cellules/mm²
+    Jour 6 : 75 cellules/mm²
+    Jour 7 : 80 cellules/mm²
+
+**Quelle est la moyenne mobile de la densité cellulaire en utilisant une fenêtre de trois jours ?**
+
+---
+
+### Moyenne mobile (suite)
+
+Pour lisser les variations quotidiennes et identifier les tendances à plus long terme, le biologiste peut utiliser une moyenne mobile sur une fenêtre de trois jours. Voici comment calculer la moyenne mobile pour chaque jour :
+
+$$\text{Moyenne mobile du Jour 1} : \frac{(50 + 55 + 60)}{3} = 55 cellules/mm² $$
+$$\text{Moyenne mobile du Jour 2} : \frac{(55 + 60 + 65)}{3} = 60 cellules/mm² $$
+$$\text{Moyenne mobile du Jour 3} : \frac{(60 + 65 + 70)}{3} = 65 cellules/mm² $$
+$$\text{Moyenne mobile du Jour 4} : \frac{(65 + 70 + 75)}{3} = 70 cellules/mm² $$
+$$\text{Moyenne mobile du Jour 5} : \frac{(70 + 75 + 80)}{3} = 75 cellules/mm² $$
+En utilisant une moyenne mobile, le biologiste peut mieux visualiser les *tendances* de la densité cellulaire dans l'échantillon au fil du temps.
+
+---
+
+#### Exercice : Taille des organites cellulaires observés &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+Imaginons qu'un biologiste mesure la taille des organites cellulaires observés au microscope pendant plusieurs jours. Voici les tailles mesurées pour chaque jour :
+
+    Jour 1 : 5 µm
+    Jour 2 : 6 µm
+    Jour 3 : 5.5 µm
+    Jour 4 : 6.5 µm
+    Jour 5 : 7 µm
+
+**Quelle est la moyenne mobile de la taille des organites cellulaires observés en utilisant une fenêtre de deux jours ?**
+
+---
+
+Pour lisser les variations quotidiennes et détecter les tendances de taille à plus long terme, le biologiste peut utiliser une moyenne mobile sur une fenêtre de deux jours. Voici comment calculer la moyenne mobile pour chaque jour :
+
+$$\text{Moyenne mobile du Jour 1} : \frac{(5+6)}{2} = 5.5 µm $$
+$$\text{Moyenne mobile du Jour 2} : \frac{(6+5.5)}{2} = 5.75 µm $$
+$$\text{Moyenne mobile du Jour 3} : \frac{(5.5+6.5)}{2} = 6.00 µm $$
+$$\text{Moyenne mobile du Jour 4} : \frac{(6.5+7)}{2} = 6.75 µm $$
+
+En utilisant une moyenne mobile, le biologiste peut mieux suivre les *variations* de taille des organites cellulaires observés au fil du temps, ce qui peut fournir des informations sur les processus cellulaires en cours.
+
+---
+
+### Moyenne géométrique
+
+#### Définition
+
+La **moyenne géométrique** représente la racine n-ième du produit des n valeurs d’une distribution d’un caractère statistique quantitatif.
+
+$$G = \sqrt[n]{x_1 \cdot x_2 \cdot x_3 \cdot ... \cdot x_n}$$
+
+Où :
+- $G$ est la moyenne géométrique,
+- $x_1, x_2, ..., x_n$ sont les valeurs de l'ensemble de données,
+- $n$ est le nombre total de valeurs dans l'ensemble de données.
+
+---
+
+### Moyenne géométrique (suite)
+
+.pull-left[
+#### Utilisation
+- Echelle multiplicative.
+
+- Valeurs relatives.
+
+- Agrégation de taux de croissance.
+]
+
+.pull-right[
+#### Exclusion
+- Présence de valeurs nulles ou négatives.
+
+- Données non multiplicatives.
+
+- Manque de représentativité.
+]
+
+<!-- La moyenne géométrique est souvent utilisée pour calculer des valeurs 
+relatives ou pour agréger des taux de croissance. Par exemple, si nous voulons 
+calculer le taux de croissance moyen d'un investissement sur plusieurs périodes, 
+la moyenne géométrique est l'outil approprié.
+Un avantage majeur de la moyenne géométrique est qu'elle prend en compte 
+les effets multiplicatifs des valeurs. Cela signifie que si les valeurs 
+augmentent ou diminuent de manière exponentielle, la moyenne géométrique 
+fournira une mesure représentative de cette croissance ou décroissance.
+Tout d'abord, elle exclut les valeurs nulles ou négatives, car elle repose sur 
+le principe de la multiplication. De plus, elle n'est pas adaptée aux situations 
+où les données ne sont pas multiplicatives, car cela entraînerait une 
+interprétation incorrecte des résultats.
+Enfin, la moyenne géométrique peut manquer de représentativité dans certains 
+cas, notamment lorsque les valeurs sont très dispersées ou lorsque 
+l'échantillon est petit.-->
+
+
+
+---
+
+### Moyenne géométrique (suite)
+
+#### Exemple : Croissance Bactérienne
+
+Un biologiste étudie la croissance d'une culture bactérienne sur trois jours consécutifs. Il mesure le taux de croissance quotidien de la culture, qui est le rapport de la taille de la population à la fin de la journée par rapport à sa taille au début de la journée.
+
+    Jour 1 : 1.2
+    Jour 2 : 1.5
+    Jour 3 : 1.1
+
+**Quel est le taux de croissance moyen quotidien de la culture bactérienne sur les trois jours ?**
+
+--
+
+Pour calculer le taux de croissance moyen sur les trois jours, on utilise la moyenne géométrique des facteurs de croissance :
+
+$$ \text{Moyenne Géométrique}=\sqrt[3]{1.2×1.5×1.1}≈\sqrt[3]{1.98}≈1.2557$$
+
+Le taux de croissance moyen quotidien est donc d'environ 1.2557, ce qui signifie que *la population bactérienne a, en moyenne, augmenté de 25,57%*.
+
+---
+
+#### Exercice : Variation de Taille de Cellules &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+Dans une expérience, un biologiste mesure la taille de cellules avant et après un traitement. Le but est d'évaluer l'effet du traitement sur la croissance cellulaire. Il calcule le facteur de croissance de chaque cellule comme le rapport de la taille finale sur la taille initiale.
+
+    Cellule A : 1,4
+    Cellule B : 1,6
+    Cellule C : 1,3
+    Cellule D : 1,5
+
+**Quel est le facteur de croissance moyen des cellules après traitement ?**
+
+--
+
+Pour trouver le facteur de croissance moyen, on utilise la moyenne géométrique :
+
+$$ \text{Moyenne Géométrique}=\sqrt[4]{1.4×1.6×1.3×1.5}≈\sqrt[3]{4.368}≈1.445$$
+Le facteur de croissance moyen est donc d'environ 1,445, indiquant que, en moyenne, *les cellules ont augmenté de 44,5% en taille suite au traitement*.
+
+---
+
+### Moyenne harmonique
+
+#### Définition
+
+La **moyenne harmonique** de n nombres est définie comme n divisé par la somme des inverses de chaque nombre.
+
+
+$$H = \frac{n}{\frac{1}{x_1} + \frac{1}{x_2} + \frac{1}{x_3} + ... + \frac{1}{x_n}}$$
+Où :
+- $H$ est la moyenne harmonique;
+- $x_1, x_2, ..., x_n$ sont les valeurs de l'ensemble de données;
+- $n$ est le nombre total de valeurs dans l'ensemble de données.
+
+---
+
+### Moyenne harmonique (suite)
+
+.pull-left[
+#### Utilisation
+- Vitesses.
+
+- Ratios ou Proportions.
+]
+
+.pull-right[
+#### Exclusion
+- Présence de valeurs nulles ou négatives.
+
+- Données non ratios.
+]
+
+<!--la moyenne harmonique est largement employée pour calculer des moyennes de 
+vitesses.  la moyenne harmonique est particulièrement adaptée pour calculer 
+des moyennes de ratios ou de proportions.-->
+
+---
+
+### Moyenne harmonique (suite)
+
+#### Exemple : Mesure de la Vitesse de Déplacement des Cellules
+
+Un biologiste étudie la mobilité de certaines cellules en réponse à un stimulus chimique. Il mesure la vitesse à laquelle ces cellules traversent une distance fixe sous le microscope à différents moments. Il obtient les vitesses suivantes pour quatre cellules distinctes: 2 µm/s, 4 µm/s, 4 µm/s, et 8 µm/s.
+
+**Quelle est la vitesse moyenne de déplacement de ces cellules ?**
+
+--
+
+La moyenne harmonique H des vitesses est donnée par :
+
+$$
+H = \frac{n}{\sum \left(\frac{1}{\text{vitesse}}\right)} = \frac{4}{\frac{1}{2} + \frac{1}{4} + \frac{1}{4} + \frac{1}{8}} = \frac{4}{\frac{1}{2} + \frac{1}{2} + \frac{1}{8}} = \frac{4}{1+\frac{1}{8}}  \approx 3.55 \, \mu m/s
+$$
+
+Ainsi, la *vitesse moyenne de déplacement des cellules*, calculée par la moyenne harmonique, est d'environ 3.55 µm/s.
+
+---
+
+#### Exercice : Calcul de la vitesse moyenne des particules &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+Un groupe de microscopistes observe le mouvement de particules dans une solution à l'aide d'un microscope à fluorescence. Ils mesurent la vitesse de déplacement de cinq particules (en micromètres par seconde) à différents moments de l'expérience, avec les résultats suivants :
+
+    Particule 1 10 μm/s
+    Particule 2 8 μm/s
+    Particule 3 15 μm/s
+    Particule 4 6 μm/s
+    Particule 5 12 μm/s
+
+**Calculer la vitesse moyenne des particules.**
+
+---
+
+$$ H = \frac{n}{\sum \left(\frac{1}{\text{Vitesse}}\right)} = \frac{4}{\frac{1}{10} + \frac{1}{8} + \frac{1}{15} + \frac{1}{6} + \frac{1}{12}} = \frac{4}{0.5416667} \approx 7.38 μm/s$$
+*La vitesse moyenne, calculée via la moyenne harmonique, est d'environ 7.38 μm/s*.
+
+---
+
+### Moyenne quadratique
+
+#### Définition
+
+La **moyenne quadratique** (RMS, pour Root Mean Square) d'un ensemble de \(n\) nombres est le carré de la moyenne arithmétique des carrés de ces nombres. Elle est particulièrement sensible aux écarts par rapport à la moyenne, ce qui la rend utile pour analyser la variation au sein d'un ensemble de données.
+
+La formule de la moyenne quadratique est :
+
+
+$$\text{RMS} = \sqrt{\frac{1}{n} \left( x_1^2 + x_2^2 + \ldots + x_n^2 \right)}$$
+
+Où :
+- $\text{RMS}$ est la moyenne quadratique;
+- $x_1, x_2, \ldots, x_n$ sont les valeurs de l'ensemble de données;
+- $n$ est le nombre total de valeurs dans l'ensemble de données.
+
+---
+
+### Moyenne quadratique (suite)
+
+.pull-left[
+#### Utilisation
+- Mesure des écarts.
+
+- Analyse des données de performance.
+]
+
+.pull-right[
+#### Exclusion
+- Données non numériques ou catégorielles.
+
+- Analyse où la moyenne arithmétique suffit.
+]
+
+---
+
+#### Exemple: Évaluation de la Consistance de l'Intensité Lumineuse sur Plusieurs Images
+
+Dans le cadre de ces expériences, un biologiste mesure les intensités lumineuses moyennes sur cinq images différentes pour s'assurer de la fiabilité de l'éclairage et du marquage. Les intensités lumineuses moyennes mesurées sont : 250, 300, 280, 270, et 260 unités arbitraires.
+
+**comment peut-on évaluer la consistance et la fiabilité de l'intensité lumineuse d'un marqueur fluorescent à travers plusieurs images ?**
+
+--
+
+1. Calculer la moyenne de ces carrés:   
+$\frac{(250^2 + 300^2 + 280^2 + 270^2 + 260^2)}{5}  = 77225$
+2. Calculer la racine carrée de cette moyenne pour obtenir la moyenne quadratique:   
+$\sqrt{77225} ≈ 277.89$
+
+*La moyenne quadratique des intensités lumineuses moyennes est donc d'environ 272.89 unités arbitraires*, reflétant la consistance de l'intensité à travers les images.
+
+---
+
+#### Exercice : Quantification de la Variabilité du Signal dans des Mesures de Flux de Calcium &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+Dans une série d'expériences visant à mesurer les flux de calcium dans des cellules neuronales en réponse à un stimulus spécifique, un biologiste enregistre les pics d'intensité de fluorescence (en unités arbitraires) représentant l'activité du calcium. Les variations importantes dans l'amplitude des pics peuvent indiquer des différences dans la réponse cellulaire au stimulus. Les amplitudes mesurées pour cinq pics successifs sont : 200, 350, 300, 400, et 450 unités arbitraires.
+
+**Comment peut-on quantifier la variabilité et l'intensité générale des réponses au stimulus?**
+
+--
+
+1. Calculer la moyenne de ces carrés:   
+$\frac{(200^2 + 350^2 + 300^2 + 400^2 + 450^2)}{5}  = 123000$
+2. Calculer la racine carrée de cette moyenne pour obtenir la moyenne quadratique:   
+$\sqrt{123000} ≈ 350.71$
+
+*La moyenne quadratique des amplitudes des pics de fluorescence est donc d'environ 350,71 unités arbitraires*.
+
+---
+
+## Puissance d'un test et taille minimale d'échantillons
+
+### La puissance d'un test statistique
+
+**La puissance** d'un test statistique est la probabilité qu'a le test de déclarer significatif un effet réel du facteur étudié. Elle est définie par $1- \beta$.
+
+<u>**Dépendances de la Puissance**:</u>
+
+- Le test lui-même.
+
+- Amplitude de l'Effet.
+
+- Risque d'Erreur $\alpha$ Accepté.
+
+---
+
+### Les risques d'erreurs de première et deuxième espèce
+
+#### L'erreur de type I (Erreur $\alpha$)
+
+- <u>Qu'est ce que c'est ?</u> : Rejet incorrect de l'hypothèse nulle $H_0$, déclarant un effet inexistant comme significatif.
+
+- <u>P-value</u> : Probabilité d'observer un résultat aussi extrême que celui obtenu, par hasard. Une p-value faible indique normalement une différence significative.
+
+- <u>Erreur de Type I</u> : Déclarer un résultat significatif à tort, même avec une p-value faible, si le facteur n'a en réalité pas d'effet.
+
+--
+
+#### L'Erreur de Type II (Erreur $\beta$)
+
+- <u>Qu'est ce que c'est ?</u> : Acceptation incorrecte de l'hypothèse nulle $H_0$, ne détectant pas un effet réel.
+
+- <u>Impact</u> : Manquer de déclarer un effet existant comme significatif.
+
+- <u>Conséquences</u> : Risque de ne pas reconnaître une différence ou un effet biologiquement important.
+
+---
+
+#### 1er exemple: Effet d'un traitement sur la taille des cellules
+
+Considérons deux populations de cellules analysées par un biologiste microscopiste pour évaluer l'effet d'un traitement sur leur taille. On réalisera une simulation en R pour tester la différence entre ces deux populations par un test t, répété 1000 fois, pour observer la fréquence des erreurs de Type I.
+
+<u>**Données hypothétiques** :</u>
+
+- <u>Population1 (contrôle) :</u> moyenne = 10 µm, écart type = 2 µm, effectif = 100.
+- <u>Population2 (traité) :</u> moyenne = 10 µm, écart type = 2 µm, effectif = 100.
+
+---
+
+#### 1er exemple: Effet d'un traitement sur la taille des cellules (suite)
+
+```{r, echo=TRUE}
+set.seed(42) # Pour assurer la reproductibilité
+n_simulations <- 1000
+n1 <- 100 # Taille de la Population 1
+n2 <- 100 # Taille de la Population 2
+moyenne <- 10
+ecart_type <- 2
+alpha <- 0.05
+erreurs_type_I <- 0
+for (i in 1:n_simulations) {
+  # Générer des échantillons pour les deux populations
+  echantillon1 <- rnorm(n1, moyenne, ecart_type)
+  echantillon2 <- rnorm(n2, moyenne, ecart_type)
+  # Effectuer le test t
+  resultat_test <- t.test(echantillon1, echantillon2)
+  # Vérifier si une erreur de Type I a été commise
+  if (resultat_test$p.value < alpha) {
+    erreurs_type_I <- erreurs_type_I + 1
+  }
+}
+```
+Le résultat de la simulation donne `r erreurs_type_I` cas.
+
+---
+
+#### 2e exemple: Effet d'un traitement sur la taille des cellules
+
+Considérons deux populations de cellules analysées par un biologiste microscopiste pour évaluer l'effet d'un traitement sur leur taille. On réalisera une simulation en R pour tester la différence entre ces deux populations par un test t, répété 1000 fois, pour observer la fréquence des erreurs de Type II.
+
+<u>**Données hypothétiques** :</u>
+
+- <u>Population1 (contrôle) :</u> moyenne = 10 µm, écart type = 2 µm, effectif = 20.
+- <u>Population2 (traité) :</u> moyenne = 12 µm, écart type = 2 µm, effectif = 20.
+
+---
+
+#### 2e exemple: Effet d'un traitement sur la taille des cellules (suite)
+
+```{r, echo=TRUE}
+set.seed(42) # Pour assurer la reproductibilité
+n_simulations <- 1000
+n1 <- 20 # Taille de la Population 1 (contrôle)
+n2 <- 20 # Taille de la Population 2 (traitée)
+moyenne1 <- 10 # Moyenne de la population contrôle
+moyenne2 <- 12 # Moyenne de la population traitée,
+ecart_type <- 2 # Écart type identique pour les deux groupes, pour simplifier
+alpha <- 0.05 # Niveau de signification
+erreurs_type_II <- 0
+
+for (i in 1:n_simulations) {
+  # Générer des échantillons pour les deux populations
+  echantillon1 <- rnorm(n1, moyenne1, ecart_type)
+  echantillon2 <- rnorm(n2, moyenne2, ecart_type)
+  # Effectuer le test t
+  resultat_test <- t.test(echantillon1, echantillon2)
+  # Vérifier si une erreur de Type II a été commise
+  if (resultat_test$p.value >= alpha) {
+    erreurs_type_II <- erreurs_type_II + 1
+  }
+}
+```
+Le résultat de la simulation donne `r erreurs_type_II` cas.
+
+---
+
+#### Les risques d'erreurs - Conclusion
+
+| **Décision / Réalité** | **H0 Vraie**                          | **H0 Fausse**                            |
+|------------------------|---------------------------------------|------------------------------------------|
+| **Rejeter H0**         | Erreur de Type I (α) Risque: α        | Décision correcte Puissance: (1 - $\beta$)|
+| **Ne pas rejeter H0**  | Décision correcte                     | Erreur de Type II (β) Risque: β          |
+
+---
+
+### La puissance d'un test statistique (suite)
+
+#### Exemple : Calcul de la Puissance d'un Test t pour la Comparaison des Tailles Moyennes de Cellules
+
+<u>Contexte :</u>
+Des biologistes examinent l'effet potentiel d'un nouveau médicament sur la taille des cellules. Ils mettent en place une expérience contrôlée pour comparer la taille moyenne des cellules traitées avec celles non traitées.
+
+<u>Données de l'Expérience :</u>
+    
+    Taille moyenne du groupe contrôle (µ1) : 10 µm
+    Taille moyenne du groupe traité (µ2) : 12 µm
+    Écart type supposé pour les deux groupes (s) : 3 µm
+    Nombre de cellules dans chaque groupe (n) : 30 pour chaque groupe
+    Niveau de signification souhaité (α) : 0.05 (test bilatéral)
+
+**Calculer la puissance du test statistique pour détecter une différence de 2 µm entre les deux moyennes, ce qui indiquerait un effet significatif du traitement.**
+
+---
+
+#### Exemple : Calcul de la Puissance d'un Test t pour la Comparaison des Tailles Moyennes de Cellules (suite)
+
+
+.pull-left[
+<u>Méthodologie et Calculs :</u>
+
+**Étape 1 : Calcul de l'Erreur Standard de la Différence des Moyennes**
+
+$Erreur standard = s \times\sqrt{\frac{2}{n}} \approx 0.775 μm$
+
+**Étape 2 : Détermination du Score t pour le Seuil de Signification**
+
+Pour un test bilatéral avec 6 degrés de liberté, le t-score critique est environ 2.002 (valeur trouvée dans la table de distribution t).
+]
+
+.pull-right[
+
+```{r, echo=FALSE}
+# Charger la bibliothèque ggplot2 pour la visualisation
+library(ggplot2)
+
+# Paramètres de l'expérience
+mu1 <- 10
+mu2 <- 12
+s <- 3
+n <- 30
+alpha <- 0.05
+df <- 2 * n - 2
+diff <- mu2 - mu1
+std_error <- s * sqrt(2 / n)
+
+# Calculs pour les scores t
+t_alpha <- qt(1 - alpha / 2, df)
+t_effect <- diff / std_error
+
+# Création de la grille de valeurs t pour les graphiques
+t_values <- seq(-4, 4, length.out = 400)
+
+# Densités pour les deux distributions
+density_null <- dt(t_values, df)
+density_effect <- dt(t_values - t_effect, df)
+
+# Création du data frame pour ggplot
+data <- data.frame(t_values, density_null, density_effect)
+
+# Graphique avec ggplot
+ggplot(data, aes(x = t_values)) +
+  geom_line(aes(y = density_null), color = "blue") +
+  geom_line(aes(y = density_effect), color = "red") +
+  geom_area(aes(y = density_null), fill = "blue", alpha = 0.2, xlim = c(t_alpha, Inf)) +
+  geom_area(aes(y = density_null), fill = "blue", alpha = 0.2, xlim = c(-Inf, -t_alpha)) +
+  geom_area(aes(y = density_effect), fill = "red", alpha = 0.2, xlim = c(-t_alpha, t_alpha)) +
+  geom_vline(xintercept = t_alpha, linetype = "dashed", color = "black") +
+  geom_vline(xintercept = t_effect, linetype = "dashed", color = "green") +
+  labs(title = "Distribution t de Student sous H0 et H1",
+       x = "Valeurs de t", y = "Densité de probabilité") +
+  theme_minimal()
+```
+]
+
+---
+
+#### Exemple : Calcul de la Puissance d'un Test t pour la Comparaison des Tailles Moyennes de Cellules (suite)
+
+.pull-left[
+
+**Étape 3: Calcul du Score t pour la Différence Observée**
+
+La différence observée entre les moyennes des deux groupes est transformée en un score t :
+
+$t_{\text{effect}} = \frac{\text{Différence Observée}}{\text{Erreur Standard}}$   
+où la Différence Observée est $\mu_2 - \mu_1 = 2 μm$.   
+$t_{\text{effect}} = 2.582$
+
+**Étape 4: Estimation de la Puissance**
+
+**Calculer $t_{\beta}$** : $t_{\beta}$ = $t_{\alpha/2} - t_{\text{effect}}$ = -0.580. Ce score $t_{\beta}$ indique le point sur la distribution t où l'hypothèse nulle commence à être rejetée.
+$P_{t58} <= -0.58 \approx 0.28$ et la puissance serait calculée comme $1 - \beta$ = 71.8%.
+]
+
+.pull-right[
+
+```{r, echo=FALSE}
+# Charger la bibliothèque ggplot2 pour la visualisation
+library(ggplot2)
+
+# Paramètres de l'expérience
+mu1 <- 10
+mu2 <- 12
+s <- 3
+n <- 30
+alpha <- 0.05
+df <- 2 * n - 2
+diff <- mu2 - mu1
+std_error <- s * sqrt(2 / n)
+
+# Calculs pour les scores t
+t_alpha <- qt(1 - alpha / 2, df)
+t_effect <- diff / std_error
+
+# Création de la grille de valeurs t pour les graphiques
+t_values <- seq(-4, 4, length.out = 400)
+
+# Densités pour les deux distributions
+density_null <- dt(t_values, df)
+density_effect <- dt(t_values - t_effect, df)
+
+# Création du data frame pour ggplot
+data <- data.frame(t_values, density_null, density_effect)
+
+# Graphique avec ggplot
+ggplot(data, aes(x = t_values)) +
+  geom_line(aes(y = density_null), color = "blue") +
+  geom_line(aes(y = density_effect), color = "red") +
+  geom_area(aes(y = density_null), fill = "blue", alpha = 0.2, xlim = c(t_alpha, Inf)) +
+  geom_area(aes(y = density_null), fill = "blue", alpha = 0.2, xlim = c(-Inf, -t_alpha)) +
+  geom_area(aes(y = density_effect), fill = "red", alpha = 0.2, xlim = c(-t_alpha, t_alpha)) +
+  geom_vline(xintercept = t_alpha, linetype = "dashed", color = "black") +
+  geom_vline(xintercept = t_effect, linetype = "dashed", color = "green") +
+  labs(title = "Distribution t de Student sous H0 et H1",
+       x = "Valeurs de t", y = "Densité de probabilité") +
+  theme_minimal()
+```
+]
+
+---
+
+#### Exemple : Calcul du nombre de cellules nécessaires dans le cadre d'un test T de comparaison de deux moyennes
+
+<u>Contexte :</u>
+
+Des biologistes examinent l'effet potentiel d'un nouveau médicament sur la taille des cellules. Ils mettent en place une expérience contrôlée pour comparer la taille moyenne des cellules traitées avec celles non traitées.
+
+<u>Données de l'Expérience :</u>
+
+    Taille moyenne du groupe contrôle (µ1) : 10 µm
+    Taille moyenne du groupe traité (µ2) : 12 µm
+    Écart type supposé pour les deux groupes (s) : 3 µm
+    Niveau de signification souhaité (α) : 0.05 (test bilatéral)
+    Puissance désirée (1 - β) : 80%
+
+**Calculer le nombre de cellules nécessaires pour détecter une différencede 2 µm entre les deux moyennes avec une puissance de 80%,**
+
+---
+
+#### Exemple : Calcul du nombre de cellules nécessaires dans le cadre d'un test T de comparaison de deux moyennes (suite)
+
+<u>Méthodologie et Calculs :</u>
+
+**Étape 1 : Calcul de l'Effet Taille (Cohen's d)**
+
+$d = \frac{\mu_2 - \mu_1}{s} = \frac{12 - 10}{3} \approx 0.67$
+
+**Étape 2 : Déterminer les valeurs z pour α et β**
+
+- Pour α = 0.05 (bilatéral), la valeur critique $Z_{\alpha}$ est de 1.96.
+- Pour $\beta = 0.2$ (unilatéral), la valeur critique $Z_{\beta}$ est de 0.84.
+
+**Étape 3 : Utiliser la Formule de la Taille d'Échantillon**
+
+$n = 2 \left(\frac{Z_{\alpha/2} + Z_{\beta}}{d}\right)^2$
+où  d est l'effet taille donné par $d = \frac{\Delta}{\sigma}$.
+
+$d = \frac{2}{3} \approx 0.67$   
+$n = 2 \left(\frac{1.96 + 0.84}{0.67}\right)^2$
+$= 2 \left(\frac{2.80}{0.67}\right)^2$
+$= 2 \times 17.46491$   
+$n \approx 35$
+
+---
+
+#### Exercice : Étude sur l'effet d'un traitement sur la mobilité cellulaire &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+Dans un laboratoire de recherche en biologie, une équipe cherche à déterminer si un nouveau traitement peut améliorer la mobilité des fibroblastes en culture. Vous avez deux groupes de cultures de fibroblastes : un groupe contrôle sans traitement et un groupe traité avec le nouveau médicament.
+
+<u>Objectif :</u>
+L'exercice consiste à planifier une expérience pour tester l'hypothèse que le traitement améliore significativement la mobilité des fibroblastes. Vous devrez calculer la taille d'échantillon nécessaire pour obtenir une puissance statistique adéquate et estimer la puissance du test statistique avec une taille d'échantillon donnée.
+
+<u>Données Hypothétiques de l'Expérience : </u>
+
+    Moyenne attendue de la mobilité pour le groupe contrôle (µ1) : 8 µm/hour.
+    Moyenne attendue de la mobilité pour le groupe traité (µ2) : 12 µm/hour.
+    Écart type supposé pour les deux groupes (s) : 2 µm/hour.
+    Niveau de signification souhaité (α) : 0.05 (test bilatéral).
+    Puissance désirée (1 - β) : 0.80.
+
+---
+
+#### Exercice : Étude sur l'effet d'un traitement sur la mobilité cellulaire (suite) &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+**Tâches à Réaliser :**
+
+1. **Calcul de l'Effet Taille (Cohen's d) :**
+   Utilisez la différence entre les moyennes et l'écart type pour calculer l'effet taille, un indicateur crucial pour la planification de votre étude.
+
+2. **Calcul de la Taille d'Échantillon Nécessaire :**
+   En utilisant la formule pour un test bilatéral, déterminez combien de cultures cellulaires sont nécessaires dans chaque groupe pour atteindre la puissance statistique désirée de 80%.
+
+3. **Estimation de la Puissance avec une Taille d'Échantillon Donnée :**
+   Supposons que votre laboratoire ne peut préparer que 4 cultures par groupe. Calculez la puissance du test statistique pour cette taille d'échantillon, afin de voir si elle est suffisante pour détecter l'effet souhaité.
+
+---
+
+#### Correction de l'Exercice
+
+1/ **Calcul de l'Effet Taille (Cohen's d) :**
+
+L'effet taille est une mesure de la différence entre deux moyennes en termes de nombre de déviations standard. Pour le calculer, nous utilisons la formule :  
+$d = \frac{\mu_2 - \mu_1}{s}$  
+où $\mu_2$ et $\mu_1$ sont les moyennes des groupes traité et contrôle, respectivement, et $s$ est l'écart type commun supposé.
+
+**Calcul :**  
+$d = \frac{12 - 8}{2} = 2$
+
+2/ **Calcul de la Taille d'Échantillon Nécessaire :**
+
+Pour déterminer la taille d'échantillon nécessaire à une puissance de 80% et un niveau de signification de 5% pour un test bilatéral, nous utilisons la formule :  
+$n = 2 \left(\frac{Z_{\alpha/2} + Z_{\beta}}{d}\right)^2$  
+où $Z_{\alpha/2}$ est le z-score pour un niveau de signification de 0.05 (environ 1.96) et $Z_{\beta}$ est le z-score pour une puissance de 0.80 (environ 0.84).
+
+---
+
+2/ **Calcul de la Taille d'Échantillon Nécessaire : ** (suite) 
+
+$n = 2 \left(\frac{1.96 + 0.84}{2}\right)^2$  
+$n \approx 3.92$
+
+Nous arrondissons donc à 4 cultures par groupe pour simplifier, bien que ce nombre semble inhabituellement bas. Il est important de revoir les valeurs z ou d'ajuster les paramètres si nécessaire, car cela pourrait indiquer une simplification excessive ou une erreur dans les valeurs z utilisées.
+
+---
+
+3/ **Estimation de la Puissance avec une Taille d'Échantillon Donnée :**
+
+**Étape 1 : Calcul de l'Erreur Standard de la Différence des Moyennes**
+
+$Erreur standard = s \times\sqrt{\frac{2}{n}} = 2 \times\sqrt{\frac{2}{4}} \approx 1.414 μm/h$
+
+**Étape 2 : Détermination du Score t pour le Seuil de Signification**
+
+Pour un test bilatéral avec 6 degrés de liberté, le t-score critique est environ 2.447 (valeur trouvée dans la table de distribution t).
+
+**Étape 3: Calcul du Score t pour la Différence Observée**
+
+La différence observée entre les moyennes des deux groupes est transformée en un score t :
+
+$t_{\text{effect}} = \frac{\text{Différence Observée}}{\text{Erreur Standard}}$   
+où la Différence Observée est $\mu_2 - \mu_1 = 4 μm/h$.   
+$t_{\text{effect}} = 2.828$
+
+**Étape 4: Estimation de la Puissance**
+
+P(t <= -0.381) $\approx 0.358$ pour 6 df, donc la puissance est $( 1 - 0.358 = 0.64 )$ ou 64%.
+
+---
+
+#### Exemple : Évaluation de l'Efficacité d'un Vaccin
+
+<u>Contexte :</u>
+Des chercheurs en biologie testent un nouveau vaccin pour une maladie végétale. Ils veulent évaluer la puissance de leur test statistique pour détecter une augmentation de l'efficacité du vaccin.
+
+<u>Données de l'Expérience :</u>
+
+    Proportion de succès sans vaccin p1 : 70%
+    Proportion de succès avec vaccin p2 : 85%
+    Taille d'échantillon par groupe : 150
+
+<u>Objectif :</u>
+
+**Calculer la puissance du test statistique pour détecter une augmentation de 15% de l'efficacité du vaccin avec un niveau de signification de 0.05.**
+
+<u>Méthode et Calculs :</u>
+
+**Étape 1 : Calcul de la Différence des Proportions**
+
+$p_2 - p_1 = 0.85 - 0.70 = 0.15$
+
+---
+
+**Étape 2 : Calcul de l'Erreur Standard pour la Différence de Proportions**
+
+$\text{SE}_{\text{diff}} = \sqrt{\frac{p_1(1-p_1)}{n} + \frac{p_2(1-p_2)}{n}}$
+$\text{SE}_{\text{diff}} \approx 0.047$
+
+**Étape 3 : Calcul du Score Z critique**
+
+$Z_{\alpha/2}$ pour un niveau de signification de 0.05 (test bilatéral) :  $\approx 1.960$
+
+**Étape 4 : Calcul du Score Z de l'Effet**
+
+$Z_{\text{effect}} = \frac{p_2 - p_1}{\text{SE}_{\text{diff}}}$
+$Z_{\text{effect}} \approx 3.162$
+
+**Étape 5 : Calcul de puissance**
+
+**Calculer $z_{\beta}$** : $z_{\beta}$ = $z_{\alpha/2} - t_{\text{effect}}$ = -1.202. Ce score $z_{\beta}$ indique le point sur la distribution z où l'hypothèse nulle commence à être rejetée.
+$P_{z\alpha/2} <= -0.58 \approx 0.115 $ et la puissance serait calculée comme $1 - \beta$ = 88.5%.
+
+---
+
+#### Exemple : Détermination de la Taille d'Échantillon nécessaire pour Comparer Deux Traitements
+
+<u>Contexte :</u>
+Des biologistes souhaitent évaluer si un nouveau traitement pour les cultures cellulaires est plus efficace que le traitement standard pour prévenir une maladie spécifique.
+
+<u>Objectif :</u>
+Déterminer la taille d'échantillon nécessaire pour avoir une puissance suffisante afin de détecter une différence de 15% entre les taux de succès de deux traitements.
+
+<u>Données Supposées de l'Expérience :</u>
+- Proportion attendue de succès avec le traitement A (standard) $p_1$: 60%.
+- Proportion attendue de succès avec le traitement B (nouveau) $p_2$: 75%.
+- Niveau de signification $\alpha: 0.05$ (test bilatéral).
+- Puissance désirée $(1 - \beta): 80%$.
+
+<u>Méthodologie et Calculs :</u>
+
+**Étape 1 : Estimation Préliminaire des Proportions**
+- $p_1 = 0.60$
+- $p_2 = 0.75$
+
+**Étape 2 : Calcul de l'Effet Taille**
+L'effet taille pour les différences de proportions peut être estimé par la différence directe entre les deux proportions :
+$d = p_2 - p_1 = 0.75 - 0.60 = 0.15$
+
+---
+
+**Étape 3 : Formule pour la Taille d'Échantillon pour les Proportions**
+La taille d'échantillon pour chaque groupe peut être calculée en utilisant la formule approchée suivante :   
+$n = \left(\frac{(Z_{\alpha/2} + Z_{\beta})^2 \cdot (p_1(1-p_1) + p_2(1-p_2))}{d^2}\right)$   
+où $Z_{\alpha/2}$ et $Z_{\beta}$ sont les z-scores pour le niveau de signification et la puissance désirée, respectivement.
+
+- $Z_{\alpha/2}$ pour $\alpha = 0.05$ (bilatéral) est approximativement 1.96.
+- $Z_{\beta}$ pour une puissance de 80% est approximativement 0.84.
+
+<u>Calculs :</u>
+$n = \left(\frac{(1.96 + 0.84)^2 \cdot (0.60 \times 0.40 + 0.75 \times 0.25)}{0.15^2}\right)$
+$n = \left(\frac{2.80^2 \times (0.24 + 0.1875)}{0.0225}\right)$
+$n = \left(\frac{7.84 \times 0.4275}{0.0225}\right)$
+$n \approx \left(\frac{3.3524}{0.0225}\right)$
+$n \approx 149$
+
+**Étape 4 : Conclusion**
+Pour chaque groupe, il faut environ 149 sujets pour atteindre une puissance de 80% afin de détecter une différence de 15% entre les deux proportions de traitement avec un niveau de signification de 0.05.
+
+---
+
+####Exercice : Évaluation de l'Effet d'un Nouveau Fertilisant sur le Taux de Germination des Graines &nbsp; &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+<u>Contexte :</u>
+Vous êtes un biologiste travaillant pour une entreprise agricole qui développe de nouveaux produits pour améliorer la germination des graines. Un nouveau fertilisant est proposé, et vous êtes chargé d'évaluer son efficacité comparée à celle d'un fertilisant standard.
+
+<u>Données de l'Expérience Hypothétiques :</u>
+    
+    Taux de germination avec le fertilisant standard p1 : 50% ou 0.50
+    Taux de germination attendu avec le nouveau fertilisant p2 : 65% ou 0.65
+    Niveau de signification souhaité α : 0.05 (test bilatéral)
+    Puissance désirée (1 - β) : 90%
+
+    Calculez la taille d'échantillon nécessaire pour détecter cette différence avec une puissance de 90%
+    et un niveau de signification de 0.05.
+
+---
+
+**Correction de l'exercice**
+
+**Étape 1 : Définir les proportions**
+Proportion sous traitement standard $p_1$ = 0.50
+Proportion sous nouveau traitement $p_2$ = 0.65
+
+**Étape 2 : Calculer l'effet taille (d)**
+$d = p_2 - p_1 = 0.65 - 0.50 = 0.15$
+
+**Étape 3 : Utiliser la formule de la taille d'échantillon pour les proportions**
+   - Formule :    
+     $n = \left(\frac{(Z_{\alpha/2} + Z_{\beta})^2 \cdot (p_1(1-p_1) + p_2(1-p_2))}{d^2}\right)$
+     $Z_{\alpha/2}$ pour $\alpha = 0.05$ (bilatéral) est 1.96.
+     $Z_{\beta}$ pour une puissance de 90% est environ 1.28.
+
+**Étape 4 : Calculs**
+
+
+  $n = \left(\frac{(1.96 + 1.28)^2 \cdot (0.50 \times 0.50 + 0.65 \times 0.35)}{0.15^2}\right)$
+  $n = \left(\frac{3.24^2 \cdot (0.25 + 0.2275)}{0.0225}\right)$
+  $n = \left(\frac{10.4976 \times 0.4775}{0.0225}\right)$
+  $n \approx \left(\frac{4.9966}{0.0225}\right)$
+  $n \approx 222$ par groupe pour atteindre la puissance désirée.
+
+---
+
+####Exercice : Calcul de la Puissance pour Comparer deux Suppléments sur la Croissance des Plantes &nbsp; `r htmltools::img(src = "./images/defi.jpg", height="100px", width="100px")`
+
+#### Contexte
+Vous êtes un biologiste étudiant l'efficacité de deux suppléments sur la croissance des plantes. Le Supplément A est un produit standard, et le Supplément B est une nouvelle formule que vous soupçonnez être plus efficace.
+
+#### Données de l'Expérience
+- **Taux de croissance réussie avec le Supplément A (p1)** : 40% ou 0.40
+- **Taux de croissance réussie attendu avec le Supplément B (p2)** : 55% ou 0.55
+- **Taille d'échantillon par groupe** : 100
+- **Niveau de signification (α)** : 0.05 (test bilatéral)
+
+#### Objectif
+Calculer la puissance du test statistique pour détecter une différence de 15% entre les taux de croissance réussie des deux suppléments, avec une taille d'échantillon de 100 pour chaque groupe.
+
+---
+
+### Solution Détaillée
+
+**Étape 1 : Calcul de la Différence des Proportions**
+
+$p_2 - p_1 = 0.55 - 0.40 = 0.15$
+
+---
+
+**Étape 2 : Calcul de l'Erreur Standard pour la Différence de Proportions**
+
+$\text{SE}_{\text{diff}} = \sqrt{\frac{p_1(1-p_1)}{n} + \frac{p_2(1-p_2)}{n}}$
+$\text{SE}_{\text{diff}} = \sqrt{\frac{0.40(1-0.40)}{100} + \frac{0.55(1-0.55)}{100}}$
+$\text{SE}_{\text{diff}} \approx 0.0698$
+
+**Étape 3 : Calcul du Score Z critique**
+
+$Z_{\alpha/2}$ pour un niveau de signification de 0.05 (test bilatéral) :  $\approx 1.960$
+
+**Étape 4 : Calcul du Score Z de l'Effet**
+
+$Z_{\text{effect}} = \frac{p_2 - p_1}{\text{SE}_{\text{diff}}}$
+$Z_{\text{effect}} = \frac{0.15}{0.0698}$
+$Z_{\text{effect}} \approx 2.148$
+
+**Étape 5 : Calcul de puissance**
+
+**Calculer $z_{\beta}$** : $z_{\beta}$ = $z_{\alpha/2} - t_{\text{effect}}$ = -0.188. Ce score $z_{\beta}$ indique le point sur la distribution z où l'hypothèse nulle commence à être rejetée.
+$P_{z\alpha/2} <= -0.188 \approx 0.425$ et la puissance serait calculée comme $1 - \beta$ = 57.45%.
+
+---
+
+## L'arbre de décision
+
+### Arbre de décision pour données numériques
+
+```{r, echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph {
+  node [fontname = Helvetica, shape = box]
+  edge [color = black]
+
+  A [label='Type de données numériques']
+  B [label='Un groupe']
+  C [label='Deux groupes']
+  D [label='Trois groupes ou plus']
+  E [label='Test de normalité']
+  F [label='Si normal: Test t (un échantillon)']
+  G [label='Si non normal: Test de Wilcoxon (un échantillon)']
+  H [label='Indépendants ou Appariés?']
+  I [label='Indépendants']
+  J [label='Appariés']
+  K [label='Test de normalité chaque groupe']
+  L [label='Si normal: Test t']
+  M [label='Si non normal: Test de Mann-Whitney']
+  N [label='Test de normalité pour différences']
+  O [label='Si normal: Test t appariés']
+  P [label='Si non normal: Test Wilcoxon appariés']
+  Q [label='Indépendants ou Appariés? (3+ groupes)']
+  R [label='Indépendants']
+  S [label='Appariés']
+  T [label='ANOVA ou Kruskal-Wallis']
+  U [label='Vérifier homogénéité des variances']
+  V [label='Si variances non homogènes: ANOVA de Welch']
+  W [label='Test de normalité pour les différences entre périodes']
+  X [label='Si normal: ANOVA à mesures répétées']
+  Y [label='Si non normal: Test de Friedman']
+  
+  A -> {B C D}
+  B -> E
+  E -> {F G}
+  C -> H
+  H -> {I J}
+  I -> K
+  K -> {L M}
+  J -> N
+  N -> {O P}
+  D -> Q
+  Q -> {R S}
+  R -> T
+  T -> U
+  U -> V
+  S -> W
+  W -> {X Y}
+}
+")
+
+```
+
+---
+
+## L'arbre de décision (suite)
+
+### Arbre de décision pour données catégorielles
+
+```{r, echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph {
+  node [fontname = Helvetica, shape = box]
+  edge [color = black]
+
+  A [label='Type de données catégorielles']
+  B [label='Deux groupes']
+  C [label='Trois groupes ou plus']
+  D [label='Indépendants ou Appariés?']
+  E [label='Indépendants']
+  F [label='Appariés']
+  G [label='Test du Chi-deux']
+  H [label='Test de McNemar']
+  I [label='Indépendants ou Appariés? (3+ groupes)']
+  J [label='Indépendants']
+  K [label='Appariés']
+  L [label='Petite taille échantillon ou cellules attendues < 5?']
+  N [label='Non: Test du Chi-deux']
+  O [label='Données ordinales?']
+  P [label='Oui: Test de Friedman']
+  Q [label='Non: Test Q de Cochran']
+  
+  A -> {B C}
+  B -> D
+  D -> {E F}
+  E -> G
+  F -> H
+  C -> I
+  I -> {J K}
+  J -> L
+  L -> {M N}
+  K -> O
+  O -> {P Q}
+}
+")
+```
+
+---
+
+#### Merci
+
+<img src="fig/prlogo.png" width=50px />  [cedrichk.github.io/reproductibilite-avec-R/](https://cedrichk.github.io/reproductibilite-avec-R/)    
+</br>
+<img src="fig/ghlogo.png" width=50px />  [Code de la présentation](https://github.com/CEDRICHK/reproductibilite-avec-R)
+
+---
+
+
+
+```{r session-presentation, echo=FALSE}
+sessionInfo()
+```
