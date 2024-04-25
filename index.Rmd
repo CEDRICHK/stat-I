@@ -82,16 +82,17 @@ avec $n$ = effectif de l'échantillon et $x_i$ = valeurs des individus sur la va
 - Présence de valeurs aberrantes.
 ]
 
-<!-- La moyenne arithmétque est particulièrement lorsque l'échelle est additive 
-c'est à dire lorsque les valeurs s'ajoutent les unes aux autres.
-Egalement utile lorsqu'on considère la magnitude des valeurs et non leur signe.
+<!-- La moyenne arithmétque est utilisé lorsque l'échelle est additive 
+c'est à dire lorsque les valeurs sont linéaires (droite)
+Egalement utile orsque vous avez des valeurs absolues, c'est-à-dire des valeurs 
+réelles ou quantitatives que vous pouvez mesurer directement.
 A traiter des distributions symétriques, c'est à dire des valeurs réparties de 
 manière équilibrées autour de la moyenne.-Appropriée lorsque l'échantillon est 
 représentatif de la population étudiée. Enfin la stabilité des mesures, 
 c'est à dire des valeurs homogènes, retirer ou ajouter une valeur, 
 n'affecte pas la moyenne
-Non adapté lorque l'échelle est multiplicative, cad les valeurs se multiplient 
-les unes aux autres ou pour des valeurs relatives (ratio/pourcentage). 
+Non adapté lorque l'échelle est multiplicative, (exponentielle). Des valeurs 
+relatives comme des ratios, des taux ou des pourcentages.
 De même la présence de valeurs aberrantes influent la moyenne.-->
 
 ---
@@ -295,10 +296,7 @@ Où :
 - Manque de représentativité.
 ]
 
-<!-- La moyenne géométrique est souvent utilisée pour calculer des valeurs 
-relatives ou pour agréger des taux de croissance. Par exemple, si nous voulons 
-calculer le taux de croissance moyen d'un investissement sur plusieurs périodes, 
-la moyenne géométrique est l'outil approprié.
+<!-- 
 Un avantage majeur de la moyenne géométrique est qu'elle prend en compte 
 les effets multiplicatifs des valeurs. Cela signifie que si les valeurs 
 augmentent ou diminuent de manière exponentielle, la moyenne géométrique 
@@ -467,6 +465,9 @@ Où :
 - Analyse où la moyenne arithmétique suffit.
 ]
 
+<!--  Etudier la variabilité dans un ensemble de données.
+Vérifier la précision d'un appareil -->
+
 ---
 
 #### Exemple: Évaluation de la Consistance de l'Intensité Lumineuse sur Plusieurs Images
@@ -517,6 +518,12 @@ $\sqrt{123000} ≈ 350.71$
 
 - Risque d'Erreur $\alpha$ Accepté.
 
+<!-- La puissance d'un texte statistique mesure la capacité du test à détecter sous H1 un effet réel lorsque cet effet existe rééllement dans la population. Définie comme 1-beta.La puissance du test est influencé par le niveau de 
+signification alpha , l'ampleur de l'effet (diff de moyenne) et la taille de 
+l'échantillon.-->
+
+
+
 ---
 
 ### Les risques d'erreurs de première et deuxième espèce
@@ -531,6 +538,10 @@ $\sqrt{123000} ≈ 350.71$
 
 --
 
+<!-- Rejet incorrect de l'hypothèse nulle indiquant un effet qui n'existe pas
+dans la réalité. La p-value représente d'observer un résultat aussi extrême que celui obtenu (ou plus) sous H0. Une p-value faible (< 0.05) est utilisée pour justifier le rejet de H0.
+Déclarer un résultat significatif à tord peut mener à des actions ou des décsions basées sur un effet non réel (préjudiciable)-->
+
 #### L'Erreur de Type II (Erreur $\beta$)
 
 - <u>Qu'est ce que c'est ?</u> : Acceptation incorrecte de l'hypothèse nulle $H_0$, ne détectant pas un effet réel.
@@ -538,6 +549,11 @@ $\sqrt{123000} ≈ 350.71$
 - <u>Impact</u> : Manquer de déclarer un effet existant comme significatif.
 
 - <u>Conséquences</u> : Risque de ne pas reconnaître une différence ou un effet biologiquement important.
+
+<!-- Il s'agit de l'acceptation incorrecte de H0 cad de ne pas détecter un effet qui est en réalité présent dans la population étudiée. Cette erreur entraine le 
+risque de manquer de céclarer un effet existant comme significatif, ce qui peut mener à des conclusions inexactes sur l'absence d'effet.
+Les conséquences sont sérieuses, ou ne pas reconnaître une différence ou un effet biologiquement ou socialement important pourrait avoir des répercussions négatives.-->
+
 
 ---
 
@@ -549,6 +565,11 @@ Considérons deux populations de cellules analysées par un biologiste microscop
 
 - <u>Population1 (contrôle) :</u> moyenne = 10 µm, écart type = 2 µm, effectif = 100.
 - <u>Population2 (traité) :</u> moyenne = 10 µm, écart type = 2 µm, effectif = 100.
+
+<!-- Dans cet exemple, nous examinons l'effet d'un traitement sur la taille des cellules en utilisant une simulation avec R. L'objectif est de déterminer si 
+le traitement a un effet significatif sur la taille des cellules ou non . Nous 
+utiliserons un test t pour comparer deux populations de cellules, contrôle et traité, où les moyennes, les écarts types, et les tailles des échantillons sont identiques entre les groupes. Cette simulation nous aidera à observer la fréquence des erreurs de Type I, c'est-à-dire les cas où nous rejetons à tort l'hypothèse nulle que les moyennes des deux populations sont égales. -->
+
 
 ---
 
@@ -577,6 +598,9 @@ for (i in 1:n_simulations) {
 ```
 Le résultat de la simulation donne `r erreurs_type_I` cas.
 
+<!--indique combien de fois, sur les 1000 tests, le test t a incorrectement conclu à une différence significative entre les deux populations. Si le niveau de signification αα est de 0.05, cela signifie que nous acceptons un risque de 5 % de commettre une erreur de Type I chaque fois que nous effectuons un test.
+Proche des 5% cela confirme que le test fonctionne comme prévu. même en absence de différence réelle, il y a toujours une probabilité, égale au niveau α, de rejeter incorrectement l'hypothèse nulle en raison de la variabilité aléatoire dans les échantillons tirés. -->
+
 ---
 
 #### 2e exemple: Effet d'un traitement sur la taille des cellules
@@ -587,6 +611,9 @@ Considérons deux populations de cellules analysées par un biologiste microscop
 
 - <u>Population1 (contrôle) :</u> moyenne = 10 µm, écart type = 2 µm, effectif = 20.
 - <u>Population2 (traité) :</u> moyenne = 12 µm, écart type = 2 µm, effectif = 20.
+
+<!-- L'objectif est de mesurer la fréquence des erreurs de Type II, c'est à dire les cas où nous ne parvenons pas à détecter une diff réelle entre les populations
+même si une diff existe.-->
 
 ---
 
@@ -617,6 +644,8 @@ for (i in 1:n_simulations) {
 ```
 Le résultat de la simulation donne `r erreurs_type_II` cas.
 
+<!-- Avec 149 erreurs sur 1000 simulations le taux d'erreurs et de 14,9% cela signifie que le test a une puissance de 85.1% pour détecter une différence de 2 um ans les moyennes des tailles des cellules sous les conditions données. La puissance du test, qui est de 85.1%, est relativement bonne mais pourrait être améliorée. En général, une puissance de 80% ou plus est considérée comme acceptable dans de nombreuses études-->
+
 ---
 
 #### Les risques d'erreurs - Conclusion
@@ -625,6 +654,16 @@ Le résultat de la simulation donne `r erreurs_type_II` cas.
 |------------------------|---------------------------------------|------------------------------------------|
 | **Rejeter H0**         | Erreur de Type I (α) Risque: α        | Décision correcte Puissance: (1 - $\beta$)|
 | **Ne pas rejeter H0**  | Décision correcte                     | Erreur de Type II (β) Risque: β          |
+
+
+<!-- En statistique, lors de la réalisation de tests d'hypothèses, deux types  d'erreurs peuvent survenir, influençant les décisions que nous prenon à partir des données :
+L'erreur de type I se produit lorsque l'hypothèse nulle est vrai mais est
+incorrectement rejetée.  Le risque de commettre cette erreur est dénoté par α,  souvent fixé à 0.05. Cela signifie que nous acceptons un risque de 5 % 
+de rejeter à tort H0.
+Erreur de Type II (β) : Cette erreur survient lorsque l'hypothèse nulle est 
+fausse, mais nous échouons à la rejeter. Le risque de cette erreur est β. La
+puissance du test, notée 1−β, est la probabilité de correctement rejeter une 
+fausse H0, et est un indicateur crucial de l'efficacité du test.-->
 
 ---
 
@@ -874,7 +913,7 @@ où $Z_{\alpha/2}$ est le z-score pour un niveau de signification de 0.05 (envir
 $n = 2 \left(\frac{1.96 + 0.84}{2}\right)^2$  
 $n \approx 3.92$
 
-Nous arrondissons donc à 4 cultures par groupe pour simplifier, bien que ce nombre semble inhabituellement bas. Il est important de revoir les valeurs z ou d'ajuster les paramètres si nécessaire, car cela pourrait indiquer une simplification excessive ou une erreur dans les valeurs z utilisées.
+Nous arrondissons donc à 4 cultures par groupe.
 
 ---
 
@@ -942,7 +981,7 @@ $Z_{\text{effect}} \approx 3.162$
 **Étape 5 : Calcul de puissance**
 
 **Calculer $z_{\beta}$** : $z_{\beta}$ = $z_{\alpha/2} - t_{\text{effect}}$ = -1.202. Ce score $z_{\beta}$ indique le point sur la distribution z où l'hypothèse nulle commence à être rejetée.
-$P_{z\alpha/2} <= -0.58 \approx 0.115 $ et la puissance serait calculée comme $1 - \beta$ = 88.5%.
+$P_{z\alpha/2} <= -0.58 \approx 0.115$ et la puissance serait calculée comme $1 - \beta$ = 88.5%.
 
 ---
 
