@@ -479,11 +479,11 @@ Dans le cadre de ces expériences, un biologiste mesure les intensités lumineus
 --
 
 1. Calculer la moyenne de ces carrés:   
-$\frac{(250^2 + 300^2 + 280^2 + 270^2 + 260^2)}{5}  = 77225$
+$\frac{(250^2 + 300^2 + 280^2 + 270^2 + 260^2)}{5}  = 74280$
 2. Calculer la racine carrée de cette moyenne pour obtenir la moyenne quadratique:   
-$\sqrt{77225} ≈ 277.89$
+$\sqrt{74280} ≈ 272.5436$
 
-*La moyenne quadratique des intensités lumineuses moyennes est donc d'environ 272.89 unités arbitraires*, reflétant la consistance de l'intensité à travers les images.
+*La moyenne quadratique des intensités lumineuses moyennes est donc d'environ 272.54 unités arbitraires*, reflétant la consistance de l'intensité à travers les images.
 
 ---
 
@@ -698,7 +698,7 @@ $Erreur standard = s \times\sqrt{\frac{2}{n}} \approx 0.775 μm$
 
 **Étape 2 : Détermination du Score t pour le Seuil de Signification**
 
-Pour un test bilatéral avec 6 degrés de liberté, le t-score critique est environ 2.002 (valeur trouvée dans la table de distribution t).
+Pour un test bilatéral avec 58 degrés de liberté, le t-score critique est environ 2.002 (valeur trouvée dans la table de distribution t).
 ]
 
 .pull-right[
@@ -1234,7 +1234,12 @@ digraph {
 <img src="fig/prlogo.png" width=50px />  [cedrichk.github.io/stat-MRI/](https://cedrichk.github.io/stat-I/)    
 </br>
 <img src="fig/ghlogo.png" width=50px />  [Code de la présentation](https://github.com/CEDRICHK/stat-I)
-
+</br>
+</br>
+<img src="fig/web.jpg" width=50px />  [calculateur Puissance d'un test et taille d'échantillon](https://homepage.univie.ac.at/robin.ristl/samplesize.php?test=ttest)
+</br>
+</br>
+<img src="fig/web.jpg" width=50px />  [tables de loi](https://stattrek.com/online-calculator/t-distribution)
 ---
 
 
